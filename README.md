@@ -18,11 +18,35 @@ run.
 If you already had a `data/vault.json` from the earlier version, the first
 launch imports it and renames it `vault.json.imported`. Nothing is deleted.
 
-## Moving it to another machine
+## Setting it up on another machine
 
-Copy the `.py` files in this folder (`test_vault.py` is optional), run
-`pip install customtkinter`, then `python main.py`. To bring the data across,
-copy `data/vault.db` too — it is a single self-contained file.
+```
+git clone https://github.com/Dhawi1902/perf-test-vault.git
+cd perf-test-vault
+pip install customtkinter
+python main.py
+```
+
+There is no database to install or configure — SQLite is part of Python. The
+repo deliberately has no `data/` folder: the vault is ignored by git and never
+published.
+
+**Starting empty.** Just run `python main.py` and add your first system; the
+`data/` folder and `vault.db` appear on the first save. If you would rather
+create it up front, `python vault_tool.py init` does it, and
+`python vault_tool.py info` tells you what is there.
+
+**Bringing your existing vault across.** Either:
+
+- copy `data/vault.db` over — it is one self-contained file, nothing else is
+  needed; or
+- on the old machine `python vault_tool.py export`, carry the JSON across,
+  then `python vault_tool.py import vault.export.json` on the new one. Use
+  this when copying a `.db` is awkward, or when you want to read the data
+  before it lands.
+
+Keep one machine's vault as the real one. They do not sync, and copying a
+vault over a newer one replaces it.
 
 ## Using it
 

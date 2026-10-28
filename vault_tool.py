@@ -1,5 +1,6 @@
 """Look after the vault file without needing any database tool.
 
+    python vault_tool.py init              create an empty vault to start from
     python vault_tool.py info              what is in the vault
     python vault_tool.py export            write it out as readable JSON
     python vault_tool.py export my.json    ... to a file you name
@@ -19,6 +20,18 @@ from datetime import datetime
 from pathlib import Path
 
 import storage
+from models import Vault
+
+
+def init() -> int:
+    """Create an empty vault. Running the app does this too, on first save."""
+    if storage.DEFAULT_PATH.exists():
+        print(f"Already there: {storage.DEFAULT_PATH}")
+        return info()
+    storage.save(Vault(), storage.DEFAULT_PATH)
+    print(f"Created an empty vault at {storage.DEFAULT_PATH}")
+    print("Run `python main.py` and use + System to add your first one.")
+    return 0
 
 
 def info() -> int:
@@ -90,6 +103,8 @@ def main(argv: list[str]) -> int:
     command = argv[0] if argv else ""
     argument = argv[1] if len(argv) > 1 else None
     try:
+        if command == "init":
+            return init()
         if command == "info":
             return info()
         if command == "export":
