@@ -1,0 +1,15 @@
+# The vault itself never goes near version control.
+data/
+*.db
+*.db-wal
+*.db-shm
+vault*.json
+*.export.json
+*.imported
+
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.venv/
+venv/
